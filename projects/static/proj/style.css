@@ -1,0 +1,12 @@
+body{
+    background-image: url("./mk.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+h1{
+    color: white;
+}
+.delete{
+    height: 50px;
+}

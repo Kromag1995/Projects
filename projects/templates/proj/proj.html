@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{project.tittle}} </h1>
+    <div>
+        <form action="./add_chore/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    {% if chores %}
+        <div class="accordion w-70 p-3" id="accordion">
+            {% for chore in chores %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{chore.id}}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{chore.id}}" aria-expanded="false" aria-controls="collapseOne">
+                            {% if chore.done %}
+                                <del>{{chore.tittle}}</del>
+                            {% else %}
+                                {{chore.tittle}}
+                            {% endif%}
+
+                        </button>
+                    </h2>
+                    <div id="collapse{{chore.id}}" class="accordion-collapse collapse" aria-labelledby="heading{{chore.id}}" data-bs-parent="#accordion" style="">
+                        <div class="accordion-body">
+                            <div class= "d-inline-block p-3">
+                                {{chore.text}}
+                            </div>
+                            <div class= "d-inline-block p-3">
+                                <form action="./done_chore/" method="post">
+                                    {% csrf_token %}
+                                    <label for="chore_id"></label>
+                                    <input type="hidden" value="{{chore.id}}" id="chore_id" name="chore_id">
+                                    <input type="submit" class="btn btn-primary" value="Done">
+                                </form>
+                            </div>
+                            <div class= "d-inline-block p-3">
+                                <form action="./delete_chore/" method="post">
+                                    {% csrf_token %}
+                                    <label for="chore_id"></label>
+                                    <input type="hidden" value="{{chore.id}}" id="chore_id" name="chore_id">
+                                    <input type="submit" class="btn btn-primary" value="Delete">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+{% endblock  %}

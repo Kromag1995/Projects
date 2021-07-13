@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div>  
+    <h1>Projectos</h1>
+    <div class="w-25 p-3">
+        <h2>Todos los projectos</h2>
+        {% if projects_list %}
+            <div class="list-group">
+                {% for project in projects_list %}
+                    <a href="{% url 'project' project.id %}" class="list-group-item list-group-item-action">{{ project.tittle }}
+                        <div class= "d-inline-block p-3">
+                            <form action="./delete_project/" method="post">
+                                {% csrf_token %}
+                                <label for="project_id"></label>
+                                <input type="hidden" value="{{project.id}}" id="project_id" name="project_id">
+                                <input type="image" class="delete btn btn-primary" src="{% static 'proj/delete.png' %}">
+                            </form>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <h2>Crear Nuevos projectos</h2>
+        <div>
+            <form action="./add_project/" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock  %}
